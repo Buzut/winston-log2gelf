@@ -1,6 +1,6 @@
 # winston-log2gelf
 
-A [graylog2][0] or [GELF](http://docs.graylog.org/en/latest/pages/gelf.html) transport for [winston][1].
+A [Graylog2][0] or [GELF](http://docs.graylog.org/en/latest/pages/gelf.html) transport for [Winston][1]. Supports HTTP(S) & TCP/TCP over TLS protocols. 
 
 ## Installation
 
