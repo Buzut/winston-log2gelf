@@ -7,7 +7,7 @@ A [Graylog2][0] or [GELF](http://docs.graylog.org/en/latest/pages/gelf.html) tra
 As it's written in ES6, this module requires at least node v4.
 
 ``` sh
-  $ npm install install --save winston-log2gelf
+  $ npm install --save winston-log2gelf
 ```
 
 ## Usage
@@ -16,7 +16,6 @@ As it's written in ES6, this module requires at least node v4.
   require('winston-log2gelf');
 
   const logger = new (winston.Logger)({
-    level: 'info',
     transports: [
         new (winston.transports.Console)({
             level: 'info',
@@ -24,6 +23,7 @@ As it's written in ES6, this module requires at least node v4.
             humanReadableUnhandledException: true
         }),
         new (winston.transports.Log2gelf)({
+            level: 'info',
             host: '192.168.0.15',
             port: 12201,
             protocol: 'tls',
