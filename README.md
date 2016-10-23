@@ -1,13 +1,12 @@
 # winston-log2gelf
 
-A [Graylog2][0] or [GELF](http://docs.graylog.org/en/latest/pages/gelf.html) transport for [Winston][1]. Supports HTTP(S) & TCP/TCP over TLS protocols. 
+A [Graylog2][0] or [GELF](http://docs.graylog.org/en/latest/pages/gelf.html) transport for [Winston][1]. Supports HTTP(S) & TCP/TCP over TLS protocols.
 
 ## Installation
 
 As it's written in ES6, this module requires at least node v4.
 
 ``` sh
-  $ npm install install --save winston
   $ npm install install --save winston-log2gelf
 ```
 
