@@ -1,0 +1,27 @@
+{
+  "name": "winston-log2gelf",
+  "version": "1.0.0",
+  "description": "Winston GELF transport to Graylog or Gelf server via TCP or HTTP (TLS and HTTPS ready)",
+  "main": "./lib/index",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Buzut/winston-log2gelf.git"
+  },
+  "keywords": [
+    "monitoring",
+    "logs",
+    "nodejs",
+    "gelf",
+    "graylog",
+    "graylog2",
+    "winston"
+  ],
+  "author": "Buzut (buzut.fr)",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/Buzut/winston-log2gelf/issues"
+  },
+  "dependencies": {
+    "winston": "^2.2.0"
+  }
+}
