@@ -46,6 +46,8 @@ As it's written in ES6, this module requires at least node v4.
 * `silent`: Boolean flag indicating whether to suppress output. (default: false)
 * `handleExceptions`: Boolean flag, whenever to handle uncaught exceptions. (default: false)
 * `service`: as facility is depreacated, service describes what kind of "service" this is (like MySQLd or Apache2). (default: nodejs)
+* `environment`: the environment on which your service is running. (default: development)
+* `release`: the version of your service (e.g. 1.0.0).
 
 
 [0]: https://www.graylog.org/
