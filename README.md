@@ -34,6 +34,12 @@ As it's written in ES6, this module requires at least node v4.
 
 ```
 
+If used in a script where the process has to naturally exit after its execution, the connection has to be closed (as a db connection would have to) if TCP socket is used. It should be done like so:
+
+```javascript
+logger.log2gelf.end();
+```
+
 
 ## Options
 
