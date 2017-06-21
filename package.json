@@ -1,6 +1,6 @@
 {
   "name": "winston-log2gelf",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Winston GELF transport to Graylog or Gelf server via TCP or HTTP (TLS and HTTPS ready)",
   "main": "./lib/index",
   "repository": {
