@@ -54,6 +54,7 @@ logger.transports.log2gelf.end();
 * `service`: as facility is depreacated, service describes what kind of "service" this is (like MySQLd or Apache2). (default: nodejs)
 * `environment`: the environment on which your service is running. (default: development)
 * `release`: the version of your service (e.g. 1.0.0).
+* `_foo`: any underscore-prefixed custom option will be passed as is to the server.
 
 
 [0]: https://www.graylog.org/
