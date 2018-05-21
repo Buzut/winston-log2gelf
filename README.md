@@ -48,6 +48,8 @@ logger.transports.log2gelf.end();
 * `host`: The GELF server address (default: 127.0.0.1)
 * `port`: The GELF server port (default: 12201)
 * `protocol`: Protocol used to send data (`tcp`, `tls` [TCP over TLS], `http` or `https`). (default: tcp)
+* `reconnect`: Number of tcp reconnect attempts (default 0, 0 for none, -1 for infinite)
+* `wait`: Milliseconds to wait between reconnect attempts (default 1000)
 * `level`: Level of messages this transport should log. See [winston levels](https://github.com/winstonjs/winston#logging-levels) (default: info)
 * `silent`: Boolean flag indicating whether to suppress output. (default: false)
 * `handleExceptions`: Boolean flag, whenever to handle uncaught exceptions. (default: false)
