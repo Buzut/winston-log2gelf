@@ -1,13 +1,11 @@
 # winston-log2gelf
-
-A [Graylog2][0] or [GELF](http://docs.graylog.org/en/latest/pages/gelf.html) transport for [Winston][1]. Supports HTTP(S) & TCP/TCP over TLS protocols.
+A [Graylog2](https://www.graylog.org/) or [GELF](http://docs.graylog.org/en/latest/pages/gelf.html) transport for [Winston](https://github.com/flatiron/winston). Supports HTTP(S) & TCP/TCP over TLS protocols.
 
 ## Installation
-
-As it's written in ES6, this module requires at least node v4.
+As it's written in ES6, this module requires at least node v4. Version `1.9.1` being the latest supporting Winston < 3.x, let's install this one.
 
 ``` sh
-  $ npm install --save winston-log2gelf
+  $ npm install --save winston-log2gelf@1.9.1
 ```
 
 ## Usage
@@ -31,7 +29,6 @@ As it's written in ES6, this module requires at least node v4.
         })
     ]
 });
-
 ```
 
 If used in a script where the process has to naturally exit after its execution, the connection has to be closed (as a db connection would have to) if TCP socket is used. It should be done like so:
@@ -40,9 +37,7 @@ If used in a script where the process has to naturally exit after its execution,
 logger.transports.log2gelf.end();
 ```
 
-
 ## Options
-
 * `name`:  Transport name
 * `hostname`: The name of this host (default: os.hostname())
 * `host`: The GELF server address (default: 127.0.0.1)
@@ -57,8 +52,3 @@ logger.transports.log2gelf.end();
 * `environment`: the environment on which your service is running. (default: development)
 * `release`: the version of your service (e.g. 1.0.0).
 * `_foo`: any underscore-prefixed custom option will be passed as is to the server.
-
-
-[0]: https://www.graylog.org/
-[1]: https://github.com/flatiron/winston
-[2]: https://github.com/Wizcorp/node-graylog2
