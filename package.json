@@ -2,7 +2,7 @@
   "name": "winston-log2gelf",
   "version": "1.9.1",
   "description": "Winston GELF transport to Graylog or Gelf server via TCP or HTTP (TLS and HTTPS ready)",
-  "main": "./lib/index",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/Buzut/winston-log2gelf.git"
@@ -22,6 +22,11 @@
     "url": "https://github.com/Buzut/winston-log2gelf/issues"
   },
   "dependencies": {
-    "winston": "^2.2.0"
+    "winston-transport": "^4.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.12.0"
   }
 }
