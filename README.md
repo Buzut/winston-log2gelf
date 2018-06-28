@@ -15,7 +15,7 @@ If you're looking for the 1.x version supporting Winston < 3.x, check [winston-l
 
   const logger = winston.createLogger({
     transports: [
-        new (winston.transports.Console)({
+        new winston.transports.Console({
             level: 'info',
             handleExceptions: true
         }),
@@ -35,7 +35,7 @@ Note that if you wish to handle Exceptions, as [Winston automatically exists aft
   const logger = winston.createLogger({
     exitOnError: false, // disable default winston exit
     transports: [
-        new (winston.transports.Console)({
+        new winston.transports.Console({
             level: 'info',
             handleExceptions: true
         }),
