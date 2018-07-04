@@ -158,7 +158,7 @@ class Log2gelf extends Transport {
             this.emit('logged', info);
         });
 
-        const msg = info.message.split('\n')[0];
+        const msg = (typeof info.message === 'string' || info.message instanceof String) ? info.message.split('\n')[0] : info.message;
 
         const meta = {};
         Object.keys(info).forEach((key) => {
