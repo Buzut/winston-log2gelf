@@ -55,7 +55,8 @@ Note that if you wish to handle Exceptions, as [Winston automatically exists aft
 If used in a script where the process has to naturally exit after its execution, the connection has to be closed (as a db connection would have to) if TCP socket is used. It should be done like so:
 
 ```javascript
-logger.transports.log2gelf.end();
+const log2gelf = logger.transports.find(transport => transport.name === 'log2gelf');
+logger.end = log2gelf.end;
 ```
 
 ## Options
