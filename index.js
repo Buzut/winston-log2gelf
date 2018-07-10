@@ -154,9 +154,10 @@ class Log2gelf extends Transport {
      * @param { Function } callback
      */
     log(info, callback) {
-        setImmediate(() => {
-            this.emit('logged', info);
-        });
+        if (this.silent) {
+            callback();
+            return;
+        }
 
         const msg = (typeof info.message === 'string' || info.message instanceof String) ? info.message.split('\n')[0] : info.message;
 
