@@ -29,7 +29,7 @@ If you're looking for the 1.x version supporting Winston < 3.x, check [winston-l
 });
 ```
 
-Note that if you wish to handle Exceptions, as [Winston automatically exists after an exception](https://github.com/winstonjs/winston#to-exit-or-not-to-exit), you have to disable the exit behaviour to let `Log2gelf` enough time to send the log across the network.
+Note that if you wish to handle Exceptions, as [Winston automatically exits after an exception](https://github.com/winstonjs/winston#to-exit-or-not-to-exit), you have to disable the exit behaviour to let `Log2gelf` enough time to send the log across the network.
 
 ```javascript
   const logger = winston.createLogger({
