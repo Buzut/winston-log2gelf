@@ -167,7 +167,7 @@ class Log2gelf extends Transport {
         });
 
         const payload = {
-            timestamp: Math.floor(Date.now() / 1000),
+            timestamp: Date.now() / 1000,
             level: this.levelToInt(info.level),
             host: this.hostname,
             short_message: msg,
