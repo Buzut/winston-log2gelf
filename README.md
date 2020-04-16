@@ -73,7 +73,7 @@ logger.end = log2gelf.end;
 * `handleExceptions`: Boolean flag, whether to handle uncaught exceptions. (default: false)
 * `exitOnerror`: Will exit after x ms (2 sec by default) if Winston `exitOnError` is set to `false` if an exception is caught
 * `exitDelay`: Specify the exit delay in ms for `exitOnerror` option. (default 2000ms)
-* `service`: as facility is depreacated, service describes what kind of "service" this is (like MySQLd or Apache2). (default: nodejs* `service`: as facility is depreacated, service describes what kind of "service" this is (like MySQLd or Apache2). (default: nodejs* `service`: as facility is depreacated, service describes what kind of "service" this is (like MySQLd or Apache2). (default: nodejs* `service`: as facility is depreacated, service describes what kind of "service" this is (like MySQLd or Apache2). (default: nodejs)
+* `service`: as facility is deprecated, service describes what kind of "service" this is (like MySQLd or Apache2). (default: nodejs)
 * `environment`: the environment on which your service is running. (default: development)
 * `release`: the version of your service (e.g. 1.0.0).
 * `_foo`: any underscore-prefixed custom option will be passed as is to the server.
