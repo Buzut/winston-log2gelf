@@ -131,7 +131,7 @@ class Log2gelf extends Transport {
 
         return (msg) => {
             options.headers = {
-                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json',
                 'Content-Length': Buffer.byteLength(msg)
             };
 
