@@ -13,6 +13,7 @@ class Log2gelf extends Transport {
         this.hostname = options.hostname || os.hostname();
         this.host = options.host || '127.0.0.1';
         this.port = options.port || 12201;
+        this.path = options.path;
         this.protocol = options.protocol || 'tcp';
         this.reconnect = options.reconnect || '0';
         this.wait = options.wait || 1000;
@@ -120,7 +121,7 @@ class Log2gelf extends Transport {
         const options = {
             port: this.port,
             hostname: this.host,
-            path: '/gelf',
+            path: this.path || '/gelf',
             method: 'POST',
             rejectUnauthorized: false
         };
