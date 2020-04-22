@@ -117,16 +117,23 @@ class Log2gelf extends Transport {
      * @return { Function } logger – logger(JSONlogs)
      */
     sendHTTPGelf() {
-        const options = Object.assign({
-            port: this.port,
-            hostname: this.host,
-            path: '/gelf',
-            method: 'POST',
-            rejectUnauthorized: false,
-            headers: {
-                'Content-Type': 'application/json'
+        const headers = Object.assign({
+            'Content-Type': 'application/json'
+        }, this.protocolOptions && this.protocolOptions.headers);
+
+        const options = Object.assign(
+            {
+                port: this.port,
+                hostname: this.host,
+                path: '/gelf',
+                method: 'POST',
+                rejectUnauthorized: false
+            },
+            this.protocolOptions,
+            {
+                headers
             }
-        }, this.protocolOptions);
+        );
 
         let clientType;
         if (this.protocol === 'https') clientType = https;
