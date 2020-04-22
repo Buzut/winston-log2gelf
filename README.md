@@ -65,7 +65,7 @@ logger.end = log2gelf.end;
 * `host`: The GELF server address (default: 127.0.0.1)
 * `port`: The GELF server port (default: 12201)
 * `protocol`: Protocol used to send data (`tcp`, `tls` [TCP over TLS], `http` or `https`). (default: tcp)
-* `protocolOptions`: Socket connect options. See [`net.socket.connect`](https://nodejs.org/api/net.html#net_socket_connect_options_connectlistener) or [`tls.connect`](https://nodejs.org/api/tls.html#tls_tls_connect_options_callback) for available options.
+* `protocolOptions`: See [_Overriding connection and request options_](#overriding-connection-and-request-options).
 * `level`: Level of messages this transport should log. See [winston levels](https://github.com/winstonjs/winston#logging-levels) (default: info)
 * `silent`: Boolean flag indicating whether to suppress output. (default: false)
 * `handleExceptions`: Boolean flag, whether to handle uncaught exceptions. (default: false)
@@ -83,9 +83,12 @@ logger.end = log2gelf.end;
 * `reconnect`: Number of tcp reconnect attempts (default 0, 0 for none, -1 for infinite)
 * `wait`: Milliseconds to wait between reconnect attempts (default 1000)
 
-### Overriding connection and request options 
+### Overriding connection and request options
 
-TCP connection and HTTP request specific options can be passed via `protocolOptions`. These options are passed to the function making the request:
+_**API change**: prior to version `2.3.0`, the `host`, `port` and `rejectUnauthorized` options were not overrideable by `protocolOptions`!_
+
+TCP connection and HTTP request specific options can be passed via `protocolOptions`.
+These options override the default options (for example, `host` and `port`), and are passed to the function making the request:
 
 | Protocol | API                                                                                                  |
 |----------|------------------------------------------------------------------------------------------------------|
@@ -93,6 +96,25 @@ TCP connection and HTTP request specific options can be passed via `protocolOpti
 | `tls`    | [`tls.connect()`](https://nodejs.org/api/tls.html#tls_tls_connect_options_callback)                  |
 | `http`   | [`http.request()`](https://nodejs.org/api/http.html#http_http_request_options_callback)              |
 | `https`  | [`https.request()`](https://nodejs.org/api/https.html#https_https_request_options_callback)          |
+
+This can be used to, for example with the `http` and `https` protocol, include custom headers or change the path if the GELF HTTP input is behind a reverse proxy:
+
+```js
+new Log2gelf({
+    level: 'error',
+    host: '192.168.0.15',
+    port: 12202,
+    protocol: 'http',
+    protocolOptions: {
+        path: '/gelf-input/gelf',
+        headers: {
+            'X-API-Key': 'secret-key'
+        }
+    }
+})
+```
+
+**Note**: When using the `http` or `https` protocol, the `Content-Length` header is overwritten by `winston-log2gelf` to match the byte length of the message being sent and thus cannot be overridden with `protocolOptions`.
 
 ## Contributing
 There's sure room for improvement, so feel free to hack around and submit PRs!
