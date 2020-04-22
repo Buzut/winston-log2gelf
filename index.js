@@ -62,11 +62,11 @@ class Log2gelf extends Transport {
      * @return { Function } logger – logger(JSONlogs)
      */
     sendTCPGelf() {
-        const options = Object.assign({}, this.protocolOptions, {
+        const options = Object.assign({
             host: this.host,
             port: this.port,
             rejectUnauthorized: false
-        });
+        }, this.protocolOptions);
 
         // whether or not tls is required
         let clientType;
