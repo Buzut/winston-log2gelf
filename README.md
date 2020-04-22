@@ -85,7 +85,7 @@ logger.end = log2gelf.end;
 
 ### Overriding connection and request options
 
-_**API change**: prior to version `2.3.0`, the `host`, `port` and `rejectUnauthorized` options were not overrideable by `protocolOptions`!_
+_**API change**: prior to version `2.3.0`, the `host`, `port` and `rejectUnauthorized` options were not overrideable by `protocolOptions`. They were also previously not applied when using the `http` or `https` protocol!_
 
 TCP connection and HTTP request specific options can be passed via `protocolOptions`.
 These options override the default options (for example, `host` and `port`), and are passed to the function making the request:
