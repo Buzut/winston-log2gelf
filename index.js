@@ -122,7 +122,10 @@ class Log2gelf extends Transport {
             hostname: this.host,
             path: '/gelf',
             method: 'POST',
-            rejectUnauthorized: false
+            rejectUnauthorized: false,
+            headers: {
+                'Content-Type': 'application/json'
+            }
         };
 
         let clientType;
@@ -130,10 +133,7 @@ class Log2gelf extends Transport {
         else clientType = http;
 
         return (msg) => {
-            options.headers = {
-                'Content-Type': 'application/json',
-                'Content-Length': Buffer.byteLength(msg)
-            };
+            options.headers['Content-Length'] = Buffer.byteLength(msg);
 
             const req = clientType.request(options, (res) => { // eslint-disable-line
                 // usefull for debug
