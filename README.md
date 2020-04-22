@@ -71,8 +71,8 @@ logger.end = log2gelf.end;
 * `level`: Level of messages this transport should log. See [winston levels](https://github.com/winstonjs/winston#logging-levels) (default: info)
 * `silent`: Boolean flag indicating whether to suppress output. (default: false)
 * `handleExceptions`: Boolean flag, whether to handle uncaught exceptions. (default: false)
-* `exitOnerror`: Will exit after x ms (2 sec by default) if Winston `exitOnError` is set to `false` if an exception is caught
-* `exitDelay`: Specify the exit delay in ms for `exitOnerror` option. (default 2000ms)
+* `exitOnError`: Will exit after x ms (2 sec by default) if Winston `exitOnError` is set to `false` if an exception is caught
+* `exitDelay`: Specify the exit delay in ms for `exitOnError` option. (default 2000ms)
 * `service`: as facility is deprecated, service describes what kind of "service" this is (like MySQLd or Apache2). (default: nodejs)
 * `environment`: the environment on which your service is running. (default: development)
 * `release`: the version of your service (e.g. 1.0.0).
