@@ -4,6 +4,7 @@ const secNet = require('tls');
 const http = require('http');
 const https = require('https');
 const Transport = require('winston-transport');
+const debug = require('debug')('winston-log2gelf');
 
 class Log2gelf extends Transport {
     constructor(options) {
@@ -81,11 +82,11 @@ class Log2gelf extends Transport {
         });
 
         client.on('end', () => {
-            console.log('Disconnected from Graylog server');
+            debug('Disconnected from Graylog server');
         });
 
         client.on('error', (err) => {
-            console.error('Error connecting to Graylog:', err.message);
+            debug('Error connecting to Graylog:', err.message);
             client.reconnect = client.reconnect + 1 || 0;
         });
 
@@ -148,7 +149,7 @@ class Log2gelf extends Transport {
             });
 
             req.on('error', (e) => {
-                console.error('Error connecting to Graylog:', e.message);
+                debug('Error connecting to Graylog:', e.message);
             });
 
             req.write(msg);
