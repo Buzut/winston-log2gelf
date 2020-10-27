@@ -6,6 +6,15 @@ const https = require('https');
 const Transport = require('winston-transport');
 const debug = require('debug')('winston-log2gelf');
 
+const WINSTON_LEVELS = {
+    error: 0,
+    warn: 1,
+    info: 2,
+    verbose: 3,
+    debug: 4,
+    silly: 5
+};
+
 class Log2gelf extends Transport {
     constructor(options) {
         super(options);
@@ -48,15 +57,9 @@ class Log2gelf extends Transport {
      * @param { String }
      * @return {int} level
      */
-    levelToInt(level) { // eslint-disable-line
-        if (level === 'error') return 0;
-        if (level === 'warn') return 1;
-        if (level === 'info') return 2;
-        if (level === 'verbose') return 3;
-        if (level === 'debug') return 4;
-        if (level === 'silly') return 5;
-
-        return 0;
+    // eslint-disable-next-line
+    levelToInt(level) {
+        return WINSTON_LEVELS[level] || 0;
     }
 
     /**
