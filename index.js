@@ -27,6 +27,7 @@ class Log2gelf extends Transport {
         this.reconnect = options.reconnect || '0';
         this.wait = options.wait || 1000;
         this.keepAlive = options.keepAlive || 5000;
+        this.timeout = options.timeout;
         this.exitOnError = options.exitOnError || false;
         this.exitDelay = options.exitDelay || 2000;
         this.service = options.service || 'nodejs';
@@ -79,11 +80,23 @@ class Log2gelf extends Transport {
         else clientType = net;
 
         const client = clientType.connect(options);
+        if (this.keepAlive > 0) {
+            client.setKeepAlive(true, this.keepAlive);
+        }
 
         client.on('connect', () => {
             console.log('Connected to Graylog server');
             client.reconnect = 0;
         });
+
+        if (this.timeout > 0) {
+            client.setTimeout(this.timeout);
+
+            client.on('timeout', () => {
+                debug('Timeout to Graylog server');
+                client.end();
+            });
+        }
 
         client.on('end', () => {
             debug('Disconnected from Graylog server');
