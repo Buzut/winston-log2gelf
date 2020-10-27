@@ -43,13 +43,8 @@ class Log2gelf extends Transport {
         });
 
         // set protocol to use
-        if (this.protocol === 'tcp' || this.protocol === 'tls') {
-            const tcpGelf = this.sendTCPGelf();
-            this.send = tcpGelf.send;
-            this.end = tcpGelf.end;
-        }
-
-        else if (this.protocol === 'http' || this.protocol === 'https') this.send = this.sendHTTPGelf(this.host, this.port, false);
+        if (this.protocol === 'tcp' || this.protocol === 'tls') this.setupTCP();
+        else if (this.protocol === 'http' || this.protocol === 'https') this.setupHTTP();
         else throw new TypeError('protocol shoud be one of the following: tcp, tls, http or https');
     }
 
@@ -64,10 +59,9 @@ class Log2gelf extends Transport {
     }
 
     /**
-     * Open a TCP socket and return a logger funtion
-     * @return { Function } logger – logger(JSONlogs)
+     * Open a TCP socket and setups logger funtions
      */
-    sendTCPGelf() {
+    setupTCP() {
         const options = Object.assign({
             host: this.host,
             port: this.port,
@@ -116,25 +110,23 @@ class Log2gelf extends Transport {
             }
         });
 
-        return {
-            send(msg) {
-                client.write(`${msg}\0`);
-            },
-            end() {
-                if (client.timeout_id) {
-                    clearTimeout(client.timeout_id);
-                }
-                client.ended = true;
-                client.end();
+        this.send = (msg) => {
+            client.write(`${msg}\0`);
+        };
+
+        this.end = () => {
+            if (client.timeout_id) {
+                clearTimeout(client.timeout_id);
             }
+            client.ended = true;
+            client.end();
         };
     }
 
     /**
-     * Set HTTP(S) connection and return logger function
-     * @return { Function } logger – logger(JSONlogs)
+     * Set HTTP(S) connection and setup logger function
      */
-    sendHTTPGelf() {
+    setupHTTP() {
         const headers = Object.assign({
             'Content-Type': 'application/json'
         }, this.protocolOptions && this.protocolOptions.headers);
@@ -159,14 +151,13 @@ class Log2gelf extends Transport {
             }
         );
 
-
-        return (msg) => {
+        this.send = (msg) => {
             options.headers['Content-Length'] = Buffer.byteLength(msg);
 
-            const req = clientType.request(options, (res) => { // eslint-disable-line
+            const req = clientType.request(options/* , (res) => {
                 // usefull for debug
                 // console.log('statusCode: ', res.statusCode);
-            });
+            } */ /* eslint-disable-line */);
 
             req.on('error', (e) => {
                 debug('Error connecting to Graylog:', e.message);
