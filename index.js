@@ -168,23 +168,23 @@ class Log2gelf extends Transport {
             return;
         }
 
-        const msg = (typeof info.message === 'string' || info.message instanceof String) ? info.message.split('\n')[0] : info.message;
-
-        const meta = {};
-        Object.keys(info).forEach((key) => {
-            if (key !== 'error' && key !== 'level') meta[key] = info[key];
-        });
+        const shortMessage = (typeof info.message === 'string' || info.message instanceof String) ? info.message.split('\n')[0] : info.message;
 
         const payload = {
+            version: '1.1',
             timestamp: Date.now() / 1000,
             level: this.levelToInt(info.level),
             host: this.hostname,
-            short_message: msg,
-            full_message: JSON.stringify(meta, null, 2),
+            short_message: shortMessage,
+            full_message: info.message,
             _service: this.service,
             _environment: this.environment,
             _release: this.release
         };
+
+        Object.keys(info).forEach((key) => {
+            if (key !== 'error' && key !== 'level' && key !== 'message') payload[`_${key}`] = info[key];
+        });
 
         const gelfMsg = Object.assign({}, payload, this.customPayload);
         this.send(JSON.stringify(gelfMsg));
