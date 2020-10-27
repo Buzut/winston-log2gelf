@@ -17,6 +17,7 @@ class Log2gelf extends Transport {
         this.protocol = options.protocol || 'tcp';
         this.reconnect = options.reconnect || '0';
         this.wait = options.wait || 1000;
+        this.keepAlive = options.keepAlive || 5000;
         this.exitOnError = options.exitOnError || false;
         this.exitDelay = options.exitDelay || 2000;
         this.service = options.service || 'nodejs';
@@ -122,13 +123,19 @@ class Log2gelf extends Transport {
             'Content-Type': 'application/json'
         }, this.protocolOptions && this.protocolOptions.headers);
 
+        const clientType = this.protocol === 'https' ? https : http;
+
         const options = Object.assign(
             {
                 port: this.port,
                 hostname: this.host,
                 path: '/gelf',
                 method: 'POST',
-                rejectUnauthorized: false
+                rejectUnauthorized: false,
+                agent: new clientType.Agent({
+                    keepAlive: this.keepAlive > 0,
+                    keepAliveMsecs: this.keepAlive
+                })
             },
             this.protocolOptions,
             {
@@ -136,9 +143,6 @@ class Log2gelf extends Transport {
             }
         );
 
-        let clientType;
-        if (this.protocol === 'https') clientType = https;
-        else clientType = http;
 
         return (msg) => {
             options.headers['Content-Length'] = Buffer.byteLength(msg);
