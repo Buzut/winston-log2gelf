@@ -24,7 +24,7 @@ class Log2gelf extends Transport {
         this.host = options.host || '127.0.0.1';
         this.port = options.port || 12201;
         this.protocol = options.protocol || 'tcp';
-        this.reconnect = options.reconnect || '0';
+        this.reconnect = options.reconnect || 0;
         this.wait = options.wait || 1000;
         this.keepAlive = options.keepAlive || 5000;
         this.timeout = options.timeout;
@@ -108,7 +108,7 @@ class Log2gelf extends Transport {
         });
 
         client.on('close', () => {
-            if (!client.ended && (this.reconnect === -1 || client.reconnect < this.reconnect)) {
+            if (!client.ended && (this.reconnect < 0 || client.reconnect < this.reconnect)) {
                 client.timeout_id = setTimeout(() => {
                     client.timeout_id = null;
                     client.connect(options);
