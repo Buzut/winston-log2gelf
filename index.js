@@ -79,7 +79,7 @@ class Log2gelf extends Transport {
         }
 
         client.on('connect', () => {
-            console.log('Connected to Graylog server');
+            debug('Connected to Graylog server');
             client.reconnect = 0;
         });
 
