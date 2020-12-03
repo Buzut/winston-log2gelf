@@ -36,6 +36,7 @@ class Log2gelf extends Transport {
         this.environment = options.environment || 'development';
         this.release = options.release;
         this.protocolOptions = options.protocolOptions || {};
+        this.legacyFormat = options.legacyFormat || false;
         this.customPayload = {};
 
         Object.keys(options).forEach((key) => {
@@ -180,6 +181,18 @@ class Log2gelf extends Transport {
         }
 
         const shortMessage = (typeof info.message === 'string' || info.message instanceof String) ? info.message.split('\n')[0] : info.message;
+        let fullMessage;
+        if (this.legacyFormat) {
+            const meta = {};
+            Object.keys(info).forEach((key) => {
+                if (key !== 'error' && key !== 'level') meta[key] = info[key];
+            });
+
+            fullMessage = JSON.stringify(meta, null, 2);
+        }
+        else {
+            fullMessage = info.message;
+        }
 
         const payload = {
             version: '1.1',
@@ -187,15 +200,17 @@ class Log2gelf extends Transport {
             level: this.levelToInt(info.level),
             host: this.hostname,
             short_message: shortMessage,
-            full_message: info.message,
+            full_message: fullMessage,
             _service: this.service,
             _environment: this.environment,
             _release: this.release
         };
 
-        Object.keys(info).forEach((key) => {
-            if (key !== 'error' && key !== 'level' && key !== 'message') payload[`_${key}`] = info[key];
-        });
+        if (!this.legacyFormat) {
+            Object.keys(info).forEach((key) => {
+                if (key !== 'error' && key !== 'level' && key !== 'message') payload[`_${key}`] = info[key];
+            });
+        }
 
         const gelfMsg = Object.assign({}, payload, this.customPayload);
         this.send(JSON.stringify(gelfMsg));
