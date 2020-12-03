@@ -74,7 +74,7 @@ class Log2gelf extends Transport {
         else clientType = net;
 
         const client = clientType.connect(options);
-        if (this.keepAlive > 0) {
+        if (this.keepAlive >= 0) {
             client.setKeepAlive(true, this.keepAlive);
         }
 
@@ -83,7 +83,7 @@ class Log2gelf extends Transport {
             client.reconnect = 0;
         });
 
-        if (this.timeout > 0) {
+        if (this.timeout >= 0) {
             client.setTimeout(this.timeout);
 
             client.on('timeout', () => {
@@ -141,7 +141,7 @@ class Log2gelf extends Transport {
                 method: 'POST',
                 rejectUnauthorized: false,
                 agent: new clientType.Agent({
-                    keepAlive: this.keepAlive > 0,
+                    keepAlive: this.keepAlive >= 0,
                     keepAliveMsecs: this.keepAlive
                 })
             },
