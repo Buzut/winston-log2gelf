@@ -36,6 +36,7 @@ class Log2gelf extends Transport {
         this.environment = options.environment || 'development';
         this.release = options.release;
         this.protocolOptions = options.protocolOptions || {};
+        this.disableMessageSanification = options.disableMessageSanification || false;
         this.legacyFormat = options.legacyFormat || false;
         this.customPayload = {};
 
@@ -208,7 +209,15 @@ class Log2gelf extends Transport {
 
         if (!this.legacyFormat) {
             Object.keys(info).forEach((key) => {
-                if (key !== 'error' && key !== 'level' && key !== 'message') payload[`_${key}`] = info[key];
+                if (key !== 'error' && key !== 'level' && key !== 'message' && key !== 'id') {
+                    let value = info[key];
+                    if (!this.disableMessageSanification) {
+                        const valueType = typeof value;
+                        if (valueType !== 'string' && valueType !== 'number') value = JSON.stringify(value);
+                    }
+
+                    payload[`_${key}`] = value;
+                }
             });
         }
 
