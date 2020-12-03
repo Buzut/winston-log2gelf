@@ -1,14 +1,17 @@
 # winston-log2gelf
+
 A [Graylog2](https://www.graylog.org/) or [GELF](http://docs.graylog.org/en/latest/pages/gelf.html) transport for [Winston@3.x](https://github.com/flatiron/winston). Supports HTTP(S) & TCP/TCP over TLS protocols.
 
 If you're looking for the 1.x version supporting Winston < 3.x, check [winston-log2gelf@1.9.1](https://github.com/Buzut/winston-log2gelf/tree/v1.9.1).
 
 ## Installation
+
 ``` sh
   $ npm install --save winston-log2gelf
 ```
 
 ## Usage
+
 ```javascript
   const winston = require('winston');
   const Log2gelf = require('winston-log2gelf');
@@ -60,20 +63,23 @@ logger.end = log2gelf.end;
 ```
 
 ## Options
+
 * `name`:  Transport name
-* `hostname`: The name of this host (default: os.hostname())
-* `host`: The GELF server address (default: 127.0.0.1)
-* `port`: The GELF server port (default: 12201)
-* `protocol`: Protocol used to send data (`tcp`, `tls` [TCP over TLS], `http` or `https`). (default: tcp)
+* `hostname`: The name of this host (default: `os.hostname()`)
+* `host`: The GELF server address (default: `127.0.0.1`)
+* `port`: The GELF server port (default: `12201`)
+* `protocol`: Protocol used to send data (`tcp`, `tls` [TCP over TLS], `http` or `https`). (default: `tcp`)
 * `protocolOptions`: See [_Overriding connection and request options_](#overriding-connection-and-request-options).
-* `level`: Level of messages this transport should log. See [winston levels](https://github.com/winstonjs/winston#logging-levels) (default: info)
-* `silent`: Boolean flag indicating whether to suppress output. (default: false)
-* `handleExceptions`: Boolean flag, whether to handle uncaught exceptions. (default: false)
+* `level`: Level of messages this transport should log. See [winston levels](https://github.com/winstonjs/winston#logging-levels) (default: `info`)
+* `silent`: Boolean flag indicating whether to suppress output. (default: `false`)
+* `handleExceptions`: Boolean flag, whether to handle uncaught exceptions. (default: `false`)
 * `exitOnError`: Will exit after x ms (2 sec by default) if Winston `exitOnError` is set to `false` if an exception is caught
-* `exitDelay`: Specify the exit delay in ms for `exitOnError` option. (default 2000ms)
-* `service`: as facility is deprecated, service describes what kind of "service" this is (like MySQLd or Apache2). (default: nodejs)
-* `environment`: the environment on which your service is running. (default: development)
+* `exitDelay`: Specify the exit delay in ms for `exitOnError` option. (default `2000`)
+* `service`: as facility is deprecated, service describes what kind of "service" this is (like MySQLd or Apache2). (default: `nodejs`)
+* `environment`: the environment on which your service is running. (default: `development`)
 * `release`: the version of your service (e.g. 1.0.0).
+* `disableMessageSanification`: disable use of `JSON.stringify` over additional field to allow faster processing (default: `false`)
+* `legacyFormat`: use the old full message encoding where the message object is passed through `JSON.stringify` (default: `false`)
 * `_foo`: any underscore-prefixed custom option will be passed as is to the server.
 
 ### Protocol-specific options
@@ -82,6 +88,12 @@ logger.end = log2gelf.end;
 
 * `reconnect`: Number of tcp reconnect attempts (default 0, 0 for none, -1 for infinite)
 * `wait`: Milliseconds to wait between reconnect attempts (default 1000)
+* `keepAlive`: Milliseconds after the last data packet received and the first keep alive probe (default 5000, 0 uses system default, less than 0 disable keep alive)
+* `timeout`: Milliseconds after wich the socket times out if there was no activity over it
+
+### `http` and `https`
+
+* `keepAlive`: Milliseconds after the last data packet received and the first keep alive probe (default 5000, 0 uses system default, less than 0 disable HTTP keep alive)
 
 ### Overriding connection and request options
 
@@ -116,7 +128,12 @@ new Log2gelf({
 
 **Note**: When using the `http` or `https` protocol, the `Content-Length` header is overwritten by `winston-log2gelf` to match the byte length of the message being sent and thus cannot be overridden with `protocolOptions`.
 
+## Debug information
+
+The transport uses [debug](https://www.npmjs.com/package/debug) to print out some messages about it's internal functioning. To show them enable `debug` namespace `winston-log2gelf`.
+
 ## Contributing
+
 There's sure room for improvement, so feel free to hack around and submit PRs!
 Please just follow the style of the existing code, which is [Airbnb's style](http://airbnb.io/javascript/) with [minor modifications](.eslintrc).
 
